@@ -111,7 +111,7 @@ bool b_paused = false;
 
 void mousePosCallback(GLFWwindow* window, const double position_x, const double position_y) {
 	if(camera_ptr && !b_paused)
-		camera_ptr->mouseCallback(window, static_cast<float>(position_x), static_cast<float>(position_y), false);
+		camera_ptr->mouseCallback(window, static_cast<float>(position_x), static_cast<float>(position_y));
 }
 void windowResizeCallback(GLFWwindow* window, const int width_, const int height_) {
 	glViewport(0, 0, width_, height_);
@@ -126,7 +126,7 @@ bool escape_unpressed = true;
 
 void updateInput(GLFWwindow *window, Program &prog,float dt) {
 	if(camera_ptr&& !b_paused)
-		camera_ptr->updateInput(window, dt, false);
+		camera_ptr->updateInput(window, dt);
 	if (glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_PRESS) {
 		if (enter_unpressed) {
 			prog.reload();
@@ -194,7 +194,7 @@ int main() {
 	Program raytracingProgram("raytracing.frag", "raytracing.vert");
 	Program quadProgram("quad.frag", "quad.vert");
 
-	Camera camera(float(width) / float(height), glm::vec3(0, 0, -4));
+	Camera camera(float(width) / float(height), glm::vec3(0, 0, 0));
 	camera_ptr = &camera;
 
 	float vertices[] = {
@@ -253,19 +253,22 @@ int main() {
 		glBindVertexArray(vao);
 		raytracingProgram.bind();
 		camera.setUniforms(raytracingProgram);
-		raytracingProgram.setUniform("iTime", float(glfwGetTime()));
-		raytracingProgram.setUniform("iResolution", glm::vec2(width, height));
+		raytracingProgram.setUniform("u_Time", float(glfwGetTime()));
+		raytracingProgram.setUniform("u_Resolution", glm::vec2(width, height));
 		raytracingProgram.setUniform("spacePressed", glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS ? 1 : 0);
 
+		Framebuffer *currentFbo = (frame % 2 == 0) ? &fb1 : &fb2;
+		Framebuffer *lastFbo = (frame % 2 == 1) ? &fb1 : &fb2;
 
-		if (frame % 2) {
-			fb1.bind();
-			glBindTexture(GL_TEXTURE_2D, fb2.texture);
-		}
-		else {
-			fb2.bind();
-			glBindTexture(GL_TEXTURE_2D, fb1.texture);
-		}
+		currentFbo->bind();
+		
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, lastFbo->renderTexture);
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, lastFbo->positionsTexture);
+
+		raytracingProgram.setUniform("lastFrameColors", 0);
+		raytracingProgram.setUniform("lastFramePositions", 1);
 		
 		glClear(GL_COLOR_BUFFER_BIT);
 		glDrawArrays(GL_TRIANGLES, 0, 6);
@@ -279,10 +282,13 @@ int main() {
 
 		glBindVertexArray(vao);
 		quadProgram.bind();
-		if(frame % 2)
-			glBindTexture(GL_TEXTURE_2D, fb1.texture);
-		else
-			glBindTexture(GL_TEXTURE_2D, fb2.texture);
+		
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, currentFbo->renderTexture);
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, currentFbo->positionsTexture);
+
+		quadProgram.setUniform("screenTexture", 0);
 
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 

@@ -4,7 +4,8 @@
 
 class Framebuffer {
 public:
-	GLuint fbo, texture;
+	GLuint fbo;
+	GLuint renderTexture, positionsTexture;
 	int width, height;
 
 	Framebuffer(int width, int height);

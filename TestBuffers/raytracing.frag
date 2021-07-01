@@ -1,7 +1,7 @@
 #version 430
 
 #define STEPS 5
-#define SAMPLES 5.0f
+#define SAMPLES 16.0f
 
 #define EPSILON 1e-4
 
@@ -10,13 +10,19 @@
 in vec2 fragPos;
 
 layout(location = 0) out vec4 color;
+layout(location = 1) out vec3 positions;
 
-uniform sampler2D screenTexture;
-uniform mat4x4 invView;
-uniform mat4x4 invProj;
-uniform vec2 iResolution;
-uniform float iTime;
-uniform vec3 viewPos;
+uniform sampler2D lastFrameColors;
+uniform sampler2D lastFramePositions;
+
+uniform mat4x4 u_InverseView;
+uniform mat4x4 u_InverseProjection;
+
+uniform mat4x4 u_PreviousProjection;
+uniform mat4x4 u_PreviousView;
+
+uniform vec2 u_Resolution;
+uniform float u_Time;
 
 uniform int spacePressed;
 
@@ -24,7 +30,7 @@ vec3 sunDir = normalize(vec3(0.4, -0.5, 0));
 vec3 sunColor = vec3(1, 0.8, 0.7) * 20;
 vec3 skyColor = vec3(0.7, 0.8, 1.0) * 0.5;
 
-float tseed = iTime;
+float tseed = u_Time;
 uint rngState = uint(uint(gl_FragCoord.x) * uint(1973) + uint(gl_FragCoord.y) * uint(9277) + uint(tseed * 100) * uint(26699)) | uint(1);
 
 uint wang_hash(inout uint seed) {
@@ -98,7 +104,7 @@ float ray_plane_intersection(vec3 origin, vec3 direction, vec3 porigin, vec3 nor
 		float t = dot(p0l0, normal) / denom;
 		if(t > 0) {
 			vec3 new_pos = origin + t * direction;
-			if(length(new_pos - porigin) > 8) return -1;
+			//if(length(new_pos - porigin) > 8) return -1;
 			return t;
 		}
 	}
@@ -179,22 +185,22 @@ int numS = 7;
 
 float timei = 3.3;
 Sphere SceneS[] = Sphere[] (
-	createSphere(vec3(  2, -7, 0), 0.8, vec3(1.0, 1.0, 1.0), vec3(1.0, 1.0, 1.0), vec3(30), 0.2, 0.1, 0.9, 1.5),
-	createSphere(vec3(  -2, -7, 0), 0.8, vec3(1.0, 1.0, 1.0), vec3(1.0, 1.0, 1.0), vec3(30), 0.2, 0.1, 0.9, 1.5),
-	createSphere(vec3(  0, -7, 2), 0.8, vec3(1.0, 1.0, 1.0), vec3(1.0, 1.0, 1.0), vec3(30), 0.2, 0.1, 0.9, 1.5),
-	createSphere(vec3( 0, -3 + 2 * sin(timei), 0), 1, vec3(1.0, 1.0, 1.0), vec3(1.0, 1.0, 0.8), vec3(0), 0.0, 0.1, 0.9, 1.5),
-	createSphere(vec3( 3*cos( timei + PI / 2    ), -3, 3*sin( timei + PI / 2    )), 1, vec3(1.0, 1.0, 1.0), vec3(0.1, 1.0, 0.8), vec3(0), 0.0, 0.1, 0.9, 1.5),
-	createSphere(vec3( 3*cos( timei + PI        ), -3, 3*sin( timei + PI        )), 1, vec3(1.0, 1.0, 1.0), vec3(1.0, 1.0, 0.8), vec3(0), 0.7, 1.0, 0.0, 1.5),
-	createSphere(vec3( 3*cos( timei + PI * 3 / 2), -3, 3*sin( timei + PI * 3 / 2)), 1, vec3(1.0, 0.5, 1.0), vec3(1.0, 1.0, 1.0), vec3(0), 0.0, 0.5, 0.0, 1.5),
+	createSphere(vec3(  4, -6, -2), 0.8, vec3(1.0, 1.0, 1.0), vec3(1.0, 1.0, 1.0), vec3(25, 25, 25), 0.2, 0.1, 0.9, 1.5),
+	createSphere(vec3( -4, -6, -2), 0.8, vec3(1.0, 1.0, 1.0), vec3(1.0, 1.0, 1.0), vec3(25, 25, 25), 0.2, 0.1, 0.9, 1.5),
+	createSphere(vec3(  0, -6, 4), 0.8, vec3(1.0, 1.0, 1.0), vec3(1.0, 1.0, 1.0), vec3(25, 25, 25), 0.2, 0.1, 0.9, 1.5),
+	createSphere(vec3( 0, -1, 0),                                    1, vec3(1.0, 1.0, 1.0), vec3(1.0, 1.0, 1.0), vec3(0), 0.1, 0*0.1, 0*0.9, 1.5),
+	createSphere(vec3( 2.5*cos( timei + PI / 2    ), -1,   2.5*sin( timei + PI / 2    )), 1, vec3(1.0, 0.2, 0.2), vec3(0.1, 1.0, 0.8), vec3(0), 0.0, 0*0.1, 0*0.9, 1.5),
+	createSphere(vec3( 2.5*cos( timei + PI        ), -1.1, 2.5*sin( timei + PI        )), 1, vec3(0.2, 0.2, 1.0), vec3(1.0, 1.0, 0.8), vec3(0), 0.7, 0*1.0, 0.0, 1.5),
+	createSphere(vec3( 2.5*cos( timei + PI * 3 / 2), -1.2, 2.5*sin( timei + PI * 3 / 2)), 1, vec3(0.2, 1.0, 0.2), vec3(1.0, 1.0, 1.0), vec3(0), 0.0, 0*0.5, 0.0, 1.5),
 	createSphere(vec3( 5*cos(-timei             ), -6, 3*sin(-timei             )), 1, vec3(1.0, 0.1, 1.0), vec3(1.0, 1.0, 1.0), vec3(8), 0.0, 0.5, 0.0, 1.5),
 	createSphere(vec3( 5*cos(-timei + PI / 2    ), -6, 3*sin(-timei + PI / 2    )), 1, vec3(1.0, 1.0, 1.0), vec3(1.0, 1.0, 0.8), vec3(4), 0.0, 0.1, 0.9, 1.5),
 	createSphere(vec3( 5*cos(-timei + PI        ), -6, 3*sin(-timei + PI        )), 1, vec3(1.0, 1.0, 1.0), vec3(1.0, 1.0, 0.8), vec3(4), 0.0, 0.1, 0.9, 1.5),
 	createSphere(vec3( 5*cos(-timei + PI * 3 / 2), -6, 3*sin(-timei + PI * 3 / 2)), 1, vec3(1.0, 1.0, 1.0), vec3(1.0, 1.0, 0.8), vec3(4), 0.0, 0.1, 0.9, 1.5)
 );
 
-uniform int numT = 70;
+uniform int numT = 0;
 
-uniform Triangle SceneT[70];
+uniform Triangle SceneT[1];
 
 
 vec3 getSphereNormal(vec3 pos, vec3 sphere) {
@@ -294,95 +300,64 @@ float FresnelReflectAmount(float n1, float n2, vec3 normal, vec3 incident, float
 vec3 traceRay(vec3 origin, vec3 direction) {
 	vec3 energy = vec3(1, 1, 1);
 	hitObject hit = sendRay(origin, direction);
+	if(hit.hit)
+		positions.xyz = origin + direction * hit.dist;
 	for(int i=0; i<STEPS; i++) {
-		if(RandomFloat01(rngState) < 0.0) {
-			float dist = 0;
-			if(hit.hit) {
-				dist = RandomFloat01(rngState) * hit.dist;
+		if(hit.hit) {
+			if(length(hit.light) != 0) {
+				return hit.light * energy;
 			} else {
-				dist = RandomFloat01(rngState) * 20;
-			}
-			origin -= direction * RandomFloat01(rngState) * dist;
-			energy *= 0.9;
-			direction = normalize(RandomUnitVector(rngState));
-		} else {
-			if(hit.hit) {
-				if(length(hit.light) != 0) {
-					return hit.light * energy;
+				origin += direction * hit.dist;
+				vec3 norm = hit.normal;
+				origin += norm * EPSILON;
+				vec3 diffuse = normalize(norm + RandomUnitVector(rngState));
+
+				float specularChance = hit.specularChance;
+    			float refractionChance = hit.refractionChance;
+
+				//float rayProbability = 1.0f;
+			    if (specularChance > 0.0f) {
+			        specularChance = FresnelReflectAmount(
+			            hit.fromInside ? hit.ior : 1.0,
+			            !hit.fromInside ? hit.ior : 1.0,
+			            direction, norm, hit.specularChance, 1.0f);
+			         
+			        float chanceMultiplier = (1.0f - specularChance) / (1.0f - hit.specularChance);
+			        refractionChance *= chanceMultiplier;
+			    }
+
+			    float doSpecular = 0.0f;
+			    float doRefraction = 0.0f;
+			    float raySelectRoll = RandomFloat01(rngState);
+			    if (specularChance > 0.0f && raySelectRoll < specularChance) {
+			        doSpecular = 1.0f;
+			    } else if (refractionChance > 0.0f && raySelectRoll < specularChance + refractionChance) {
+			        doRefraction = 1.0f;
+			    }
+
+				if(doSpecular > 0) {
+					vec3 specular = reflect(direction, norm);
+					direction = normalize(mix(specular, diffuse, hit.roughness*hit.roughness));
+					energy *= hit.specular;
+				} else if(doRefraction > 0) {
+					vec3 n = hit.normal;
+					origin -= norm * 2*EPSILON;
+
+					vec3 refracted = refract(direction, n, 1/hit.ior);
+					direction = normalize(mix(refracted, diffuse, hit.roughness*hit.roughness));
+					energy *= hit.specular;
 				} else {
-					origin += direction * hit.dist;
-					if(hit.type == 0) {
-						
-						vec3 norm = hit.normal;
-						origin += norm * EPSILON;
-						/*float rn = RandomFloat01(rngState);
-						bool spec = rn < hit.specularChance;
-						bool refr = rn > hit.specularChance && rn < hit.specularChance + hit.refractionChance;*/
-						vec3 diffuse = normalize(norm + RandomUnitVector(rngState));
-
-						float specularChance = hit.specularChance;
-		    			float refractionChance = hit.refractionChance;
-
-						//float rayProbability = 1.0f;
-					    if (specularChance > 0.0f) {
-					        specularChance = FresnelReflectAmount(
-					            hit.fromInside ? hit.ior : 1.0,
-					            !hit.fromInside ? hit.ior : 1.0,
-					            direction, norm, hit.specularChance, 1.0f);
-					         
-					        float chanceMultiplier = (1.0f - specularChance) / (1.0f - hit.specularChance);
-					        refractionChance *= chanceMultiplier;
-					    }
-
-					    float doSpecular = 0.0f;
-					    float doRefraction = 0.0f;
-					    float raySelectRoll = RandomFloat01(rngState);
-					    if (specularChance > 0.0f && raySelectRoll < specularChance) {
-					        doSpecular = 1.0f;
-					        //rayProbability = specularChance;
-					    } else if (refractionChance > 0.0f && raySelectRoll < specularChance + refractionChance) {
-					        doRefraction = 1.0f;
-					        //rayProbability = refractionChance;
-					    } else {
-					        //rayProbability = 1.0f - (specularChance + refractionChance);
-					    }
-
-						if(doSpecular > 0) {
-							vec3 specular = reflect(direction, norm);
-							direction = normalize(mix(specular, diffuse, hit.roughness*hit.roughness));
-							energy *= hit.specular;
-						} else if(doRefraction > 0) {
-							vec3 n = hit.normal;
-							origin -= norm * 2*EPSILON;
-
-							vec3 refracted = refract(direction, n, 1/hit.ior);
-							direction = normalize(mix(refracted, diffuse, hit.roughness*hit.roughness));
-							energy *= hit.specular;
-						} else {
-							direction = diffuse;
-							energy *= hit.albedo;
-						}
-						/*rayProbability = max(rayProbability, 0.001f);
-						energy /= rayProbability;
-						{
-							float p = max(energy.r, max(energy.g, energy.b));
-							if (RandomFloat01(rngState) > p)
-								break;
-							energy *= 1.0f / p;
-						}*/
-					} else {
-						direction = normalize(mix(RandomUnitVector(rngState), direction, 0.2));
-						energy *= vec3(0.7, 1.0, 0.8);
-					}
+					direction = diffuse;
+					energy *= hit.albedo;
 				}
-			} else {
-				float sun = pow(max(dot(sunDir, normalize(direction)), 0), 64);
-				return 0*(skyColor + sun * sunColor) * energy;
-				//return energy * 0;
-				vec3 skyCol = skyColor;
-				skyCol *= skyCol * 1.5;
-				return skyCol * 2 * energy;
 			}
+		} else {
+			float sun = pow(max(dot(sunDir, normalize(direction)), 0), 512) * 5 * 0;
+			return (skyColor * 0.5 + sun * sunColor) * energy;
+			//return energy * 0;
+			vec3 skyCol = skyColor;
+			skyCol *= skyCol * 1.5;
+			return skyCol * 2 * energy;
 		}
 		if(dot(energy,energy) < 0.1) return vec3(0);
 		if(i < STEPS-1) hit = sendRay(origin, direction);
@@ -390,14 +365,22 @@ vec3 traceRay(vec3 origin, vec3 direction) {
 	return energy * 0;
 }
 
+vec2 Reprojection(vec3 WorldPos)  {
+    vec4 ProjectedPosition = u_PreviousProjection * u_PreviousView * vec4(WorldPos, 1.0f);
+    ProjectedPosition.xyz /= ProjectedPosition.w;
+    ProjectedPosition.xy = ProjectedPosition.xy * 0.5f + 0.5f;
+    ProjectedPosition.y = 1 - ProjectedPosition.y;
+    return ProjectedPosition.xy;
+}
+
 void main() {
     
-	vec2 ScreenSpace = gl_FragCoord.xy / iResolution.xy;
+	vec2 ScreenSpace = gl_FragCoord.xy / u_Resolution.xy;
 	ScreenSpace.y = 1-ScreenSpace.y;
 	vec4 Clip = vec4(ScreenSpace.xy * 2.0f - 1.0f, -1.0, 1.0);
-	vec4 Eye = vec4(vec2(invProj * Clip), -1.0, 0.0);
-	vec3 RayDirection = vec3(invView * Eye);
-	vec3 RayOrigin = invView[3].xyz;
+	vec4 Eye = vec4(vec2(u_InverseProjection * Clip), -1.0, 0.0);
+	vec3 RayDirection = vec3(u_InverseView * Eye);
+	vec3 RayOrigin = u_InverseView[3].xyz;
 	RayDirection = normalize(RayDirection);
 
     int i = 0;
@@ -407,10 +390,31 @@ void main() {
     }
 	color /= i;
 
-    vec4 lastColor = texture(screenTexture, gl_FragCoord.xy / iResolution.xy).rgba;
+    /*vec4 lastColor = texture(lastFrameColors, gl_FragCoord.xy / u_Resolution.xy).rgba;
     
     float blend = max(0.001, (lastColor.a == 0.0f || (spacePressed == 1)) ? 1.0f : 1.0f / (1.0f + 1.0f / lastColor.a));
     color.rgb = mix(lastColor.rgb, color.rgb, blend);
     
     color.a = blend;
+	*/
+    if(spacePressed == 0) {
+    	vec3 currentPos = positions;//texture(lastFramePositions, ScreenSpace).xyz;
+    	//currentPos.y = 1- currentPos.y;
+	    vec2 reproUV = Reprojection(currentPos);
+	    if(reproUV.x > 0 && reproUV.y > 0 && reproUV.x < 1 && reproUV.y < 1) {
+	    	vec3 lastPos = texture(lastFramePositions, reproUV).xyz;
+	    	if(length(lastPos - currentPos) < 0.1) {
+		  		vec4 lastColor = texture(lastFrameColors, reproUV).rgba;
+		  		float blend = 1;
+		  		if(lastColor.a != 0) 
+		  			blend = 1.0f / (1.0f + 1.0f / lastColor.a);
+		    	color.rgb = mix(color.rgb, lastColor.rgb, 1-blend);
+		    	color.a = blend;
+	    	} else {
+	    		color.a = 0;
+	    	}
+		} else {
+			color.a = 0;
+		}
+	}
 }
