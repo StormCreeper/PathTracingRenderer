@@ -12,7 +12,8 @@ in vec2 fragPos;
 layout(location = 0) out vec4 color;
 
 uniform sampler2D screenTexture;
-uniform mat4x4 view;
+uniform mat4x4 invView;
+uniform mat4x4 invProj;
 uniform vec2 iResolution;
 uniform float iTime;
 uniform vec3 viewPos;
@@ -390,16 +391,19 @@ vec3 traceRay(vec3 origin, vec3 direction) {
 }
 
 void main() {
-    vec3 col = vec3(0);
     
-    vec3 origin = -viewPos;
+	vec2 ScreenSpace = gl_FragCoord.xy / iResolution.xy;
+	ScreenSpace.y = 1-ScreenSpace.y;
+	vec4 Clip = vec4(ScreenSpace.xy * 2.0f - 1.0f, -1.0, 1.0);
+	vec4 Eye = vec4(vec2(invProj * Clip), -1.0, 0.0);
+	vec3 RayDirection = vec3(invView * Eye);
+	vec3 RayOrigin = invView[3].xyz;
+	RayDirection = normalize(RayDirection);
 
     int i = 0;
 		
     for(; i<SAMPLES; i++) {
-    	vec2 uv = (gl_FragCoord.xy + vec2(RandomFloat01(rngState), RandomFloat01(rngState))-.5*iResolution.xy)/iResolution.y;
-    	vec3 direction = normalize((vec4(-uv.x, -uv.y, 0.5, 0) * view).xyz);
-    	color.rgb += traceRay(origin, direction);
+    	color.rgb += traceRay(RayOrigin, RayDirection);
     }
 	color /= i;
 
