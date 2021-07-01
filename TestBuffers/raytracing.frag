@@ -398,7 +398,7 @@ void main() {
 		
     for(; i<SAMPLES; i++) {
     	vec2 uv = (gl_FragCoord.xy + vec2(RandomFloat01(rngState), RandomFloat01(rngState))-.5*iResolution.xy)/iResolution.y;
-    	vec3 direction = normalize((vec4(-uv.x, -uv.y, 0.5, 0) * inverse(view)).xyz);
+    	vec3 direction = normalize((vec4(-uv.x, -uv.y, 0.5, 0) * view).xyz);
     	color.rgb += traceRay(origin, direction);
     }
 	color /= i;

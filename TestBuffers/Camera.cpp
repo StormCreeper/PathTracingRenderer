@@ -20,7 +20,7 @@ Camera::Camera(float aspect, const glm::vec3 pos) : speed(14.0f), speed_mod(0), 
 void Camera::setUniforms(Program& prog) {
 	view = glm::lookAt(position, position + front, up);
 	//prog.setUniform("invPv", glm::inverse(projection * view));
-	prog.setUniform("view", glm::inverse(view));
+	prog.setUniform("view", view);
 	prog.setUniform("viewPos", position);
 }
 
