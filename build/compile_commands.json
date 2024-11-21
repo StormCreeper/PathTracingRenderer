@@ -1,0 +1,164 @@
+[
+{
+  "directory": "C:/Users/telop/git_projects/TestBuffers/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\gcc.exe -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H -D_UNICODE -IC:/Users/telop/git_projects/TestBuffers/dep/glfw/include -IC:/Users/telop/git_projects/TestBuffers/dep/glfw/src -IC:/Users/telop/git_projects/TestBuffers/build/dep/glfw/src -g -std=gnu99 -Wall -Wdeclaration-after-statement -o dep\\glfw\\src\\CMakeFiles\\glfw.dir\\context.c.obj -c C:\\Users\\telop\\git_projects\\TestBuffers\\dep\\glfw\\src\\context.c",
+  "file": "C:\\Users\\telop\\git_projects\\TestBuffers\\dep\\glfw\\src\\context.c",
+  "output": "dep\\glfw\\src\\CMakeFiles\\glfw.dir\\context.c.obj"
+},
+{
+  "directory": "C:/Users/telop/git_projects/TestBuffers/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\gcc.exe -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H -D_UNICODE -IC:/Users/telop/git_projects/TestBuffers/dep/glfw/include -IC:/Users/telop/git_projects/TestBuffers/dep/glfw/src -IC:/Users/telop/git_projects/TestBuffers/build/dep/glfw/src -g -std=gnu99 -Wall -Wdeclaration-after-statement -o dep\\glfw\\src\\CMakeFiles\\glfw.dir\\init.c.obj -c C:\\Users\\telop\\git_projects\\TestBuffers\\dep\\glfw\\src\\init.c",
+  "file": "C:\\Users\\telop\\git_projects\\TestBuffers\\dep\\glfw\\src\\init.c",
+  "output": "dep\\glfw\\src\\CMakeFiles\\glfw.dir\\init.c.obj"
+},
+{
+  "directory": "C:/Users/telop/git_projects/TestBuffers/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\gcc.exe -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H -D_UNICODE -IC:/Users/telop/git_projects/TestBuffers/dep/glfw/include -IC:/Users/telop/git_projects/TestBuffers/dep/glfw/src -IC:/Users/telop/git_projects/TestBuffers/build/dep/glfw/src -g -std=gnu99 -Wall -Wdeclaration-after-statement -o dep\\glfw\\src\\CMakeFiles\\glfw.dir\\input.c.obj -c C:\\Users\\telop\\git_projects\\TestBuffers\\dep\\glfw\\src\\input.c",
+  "file": "C:\\Users\\telop\\git_projects\\TestBuffers\\dep\\glfw\\src\\input.c",
+  "output": "dep\\glfw\\src\\CMakeFiles\\glfw.dir\\input.c.obj"
+},
+{
+  "directory": "C:/Users/telop/git_projects/TestBuffers/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\gcc.exe -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H -D_UNICODE -IC:/Users/telop/git_projects/TestBuffers/dep/glfw/include -IC:/Users/telop/git_projects/TestBuffers/dep/glfw/src -IC:/Users/telop/git_projects/TestBuffers/build/dep/glfw/src -g -std=gnu99 -Wall -Wdeclaration-after-statement -o dep\\glfw\\src\\CMakeFiles\\glfw.dir\\monitor.c.obj -c C:\\Users\\telop\\git_projects\\TestBuffers\\dep\\glfw\\src\\monitor.c",
+  "file": "C:\\Users\\telop\\git_projects\\TestBuffers\\dep\\glfw\\src\\monitor.c",
+  "output": "dep\\glfw\\src\\CMakeFiles\\glfw.dir\\monitor.c.obj"
+},
+{
+  "directory": "C:/Users/telop/git_projects/TestBuffers/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\gcc.exe -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H -D_UNICODE -IC:/Users/telop/git_projects/TestBuffers/dep/glfw/include -IC:/Users/telop/git_projects/TestBuffers/dep/glfw/src -IC:/Users/telop/git_projects/TestBuffers/build/dep/glfw/src -g -std=gnu99 -Wall -Wdeclaration-after-statement -o dep\\glfw\\src\\CMakeFiles\\glfw.dir\\vulkan.c.obj -c C:\\Users\\telop\\git_projects\\TestBuffers\\dep\\glfw\\src\\vulkan.c",
+  "file": "C:\\Users\\telop\\git_projects\\TestBuffers\\dep\\glfw\\src\\vulkan.c",
+  "output": "dep\\glfw\\src\\CMakeFiles\\glfw.dir\\vulkan.c.obj"
+},
+{
+  "directory": "C:/Users/telop/git_projects/TestBuffers/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\gcc.exe -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H -D_UNICODE -IC:/Users/telop/git_projects/TestBuffers/dep/glfw/include -IC:/Users/telop/git_projects/TestBuffers/dep/glfw/src -IC:/Users/telop/git_projects/TestBuffers/build/dep/glfw/src -g -std=gnu99 -Wall -Wdeclaration-after-statement -o dep\\glfw\\src\\CMakeFiles\\glfw.dir\\window.c.obj -c C:\\Users\\telop\\git_projects\\TestBuffers\\dep\\glfw\\src\\window.c",
+  "file": "C:\\Users\\telop\\git_projects\\TestBuffers\\dep\\glfw\\src\\window.c",
+  "output": "dep\\glfw\\src\\CMakeFiles\\glfw.dir\\window.c.obj"
+},
+{
+  "directory": "C:/Users/telop/git_projects/TestBuffers/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\gcc.exe -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H -D_UNICODE -IC:/Users/telop/git_projects/TestBuffers/dep/glfw/include -IC:/Users/telop/git_projects/TestBuffers/dep/glfw/src -IC:/Users/telop/git_projects/TestBuffers/build/dep/glfw/src -g -std=gnu99 -Wall -Wdeclaration-after-statement -o dep\\glfw\\src\\CMakeFiles\\glfw.dir\\win32_init.c.obj -c C:\\Users\\telop\\git_projects\\TestBuffers\\dep\\glfw\\src\\win32_init.c",
+  "file": "C:\\Users\\telop\\git_projects\\TestBuffers\\dep\\glfw\\src\\win32_init.c",
+  "output": "dep\\glfw\\src\\CMakeFiles\\glfw.dir\\win32_init.c.obj"
+},
+{
+  "directory": "C:/Users/telop/git_projects/TestBuffers/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\gcc.exe -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H -D_UNICODE -IC:/Users/telop/git_projects/TestBuffers/dep/glfw/include -IC:/Users/telop/git_projects/TestBuffers/dep/glfw/src -IC:/Users/telop/git_projects/TestBuffers/build/dep/glfw/src -g -std=gnu99 -Wall -Wdeclaration-after-statement -o dep\\glfw\\src\\CMakeFiles\\glfw.dir\\win32_joystick.c.obj -c C:\\Users\\telop\\git_projects\\TestBuffers\\dep\\glfw\\src\\win32_joystick.c",
+  "file": "C:\\Users\\telop\\git_projects\\TestBuffers\\dep\\glfw\\src\\win32_joystick.c",
+  "output": "dep\\glfw\\src\\CMakeFiles\\glfw.dir\\win32_joystick.c.obj"
+},
+{
+  "directory": "C:/Users/telop/git_projects/TestBuffers/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\gcc.exe -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H -D_UNICODE -IC:/Users/telop/git_projects/TestBuffers/dep/glfw/include -IC:/Users/telop/git_projects/TestBuffers/dep/glfw/src -IC:/Users/telop/git_projects/TestBuffers/build/dep/glfw/src -g -std=gnu99 -Wall -Wdeclaration-after-statement -o dep\\glfw\\src\\CMakeFiles\\glfw.dir\\win32_monitor.c.obj -c C:\\Users\\telop\\git_projects\\TestBuffers\\dep\\glfw\\src\\win32_monitor.c",
+  "file": "C:\\Users\\telop\\git_projects\\TestBuffers\\dep\\glfw\\src\\win32_monitor.c",
+  "output": "dep\\glfw\\src\\CMakeFiles\\glfw.dir\\win32_monitor.c.obj"
+},
+{
+  "directory": "C:/Users/telop/git_projects/TestBuffers/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\gcc.exe -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H -D_UNICODE -IC:/Users/telop/git_projects/TestBuffers/dep/glfw/include -IC:/Users/telop/git_projects/TestBuffers/dep/glfw/src -IC:/Users/telop/git_projects/TestBuffers/build/dep/glfw/src -g -std=gnu99 -Wall -Wdeclaration-after-statement -o dep\\glfw\\src\\CMakeFiles\\glfw.dir\\win32_time.c.obj -c C:\\Users\\telop\\git_projects\\TestBuffers\\dep\\glfw\\src\\win32_time.c",
+  "file": "C:\\Users\\telop\\git_projects\\TestBuffers\\dep\\glfw\\src\\win32_time.c",
+  "output": "dep\\glfw\\src\\CMakeFiles\\glfw.dir\\win32_time.c.obj"
+},
+{
+  "directory": "C:/Users/telop/git_projects/TestBuffers/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\gcc.exe -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H -D_UNICODE -IC:/Users/telop/git_projects/TestBuffers/dep/glfw/include -IC:/Users/telop/git_projects/TestBuffers/dep/glfw/src -IC:/Users/telop/git_projects/TestBuffers/build/dep/glfw/src -g -std=gnu99 -Wall -Wdeclaration-after-statement -o dep\\glfw\\src\\CMakeFiles\\glfw.dir\\win32_thread.c.obj -c C:\\Users\\telop\\git_projects\\TestBuffers\\dep\\glfw\\src\\win32_thread.c",
+  "file": "C:\\Users\\telop\\git_projects\\TestBuffers\\dep\\glfw\\src\\win32_thread.c",
+  "output": "dep\\glfw\\src\\CMakeFiles\\glfw.dir\\win32_thread.c.obj"
+},
+{
+  "directory": "C:/Users/telop/git_projects/TestBuffers/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\gcc.exe -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H -D_UNICODE -IC:/Users/telop/git_projects/TestBuffers/dep/glfw/include -IC:/Users/telop/git_projects/TestBuffers/dep/glfw/src -IC:/Users/telop/git_projects/TestBuffers/build/dep/glfw/src -g -std=gnu99 -Wall -Wdeclaration-after-statement -o dep\\glfw\\src\\CMakeFiles\\glfw.dir\\win32_window.c.obj -c C:\\Users\\telop\\git_projects\\TestBuffers\\dep\\glfw\\src\\win32_window.c",
+  "file": "C:\\Users\\telop\\git_projects\\TestBuffers\\dep\\glfw\\src\\win32_window.c",
+  "output": "dep\\glfw\\src\\CMakeFiles\\glfw.dir\\win32_window.c.obj"
+},
+{
+  "directory": "C:/Users/telop/git_projects/TestBuffers/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\gcc.exe -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H -D_UNICODE -IC:/Users/telop/git_projects/TestBuffers/dep/glfw/include -IC:/Users/telop/git_projects/TestBuffers/dep/glfw/src -IC:/Users/telop/git_projects/TestBuffers/build/dep/glfw/src -g -std=gnu99 -Wall -Wdeclaration-after-statement -o dep\\glfw\\src\\CMakeFiles\\glfw.dir\\wgl_context.c.obj -c C:\\Users\\telop\\git_projects\\TestBuffers\\dep\\glfw\\src\\wgl_context.c",
+  "file": "C:\\Users\\telop\\git_projects\\TestBuffers\\dep\\glfw\\src\\wgl_context.c",
+  "output": "dep\\glfw\\src\\CMakeFiles\\glfw.dir\\wgl_context.c.obj"
+},
+{
+  "directory": "C:/Users/telop/git_projects/TestBuffers/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\gcc.exe -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H -D_UNICODE -IC:/Users/telop/git_projects/TestBuffers/dep/glfw/include -IC:/Users/telop/git_projects/TestBuffers/dep/glfw/src -IC:/Users/telop/git_projects/TestBuffers/build/dep/glfw/src -g -std=gnu99 -Wall -Wdeclaration-after-statement -o dep\\glfw\\src\\CMakeFiles\\glfw.dir\\egl_context.c.obj -c C:\\Users\\telop\\git_projects\\TestBuffers\\dep\\glfw\\src\\egl_context.c",
+  "file": "C:\\Users\\telop\\git_projects\\TestBuffers\\dep\\glfw\\src\\egl_context.c",
+  "output": "dep\\glfw\\src\\CMakeFiles\\glfw.dir\\egl_context.c.obj"
+},
+{
+  "directory": "C:/Users/telop/git_projects/TestBuffers/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\gcc.exe -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H -D_UNICODE -IC:/Users/telop/git_projects/TestBuffers/dep/glfw/include -IC:/Users/telop/git_projects/TestBuffers/dep/glfw/src -IC:/Users/telop/git_projects/TestBuffers/build/dep/glfw/src -g -std=gnu99 -Wall -Wdeclaration-after-statement -o dep\\glfw\\src\\CMakeFiles\\glfw.dir\\osmesa_context.c.obj -c C:\\Users\\telop\\git_projects\\TestBuffers\\dep\\glfw\\src\\osmesa_context.c",
+  "file": "C:\\Users\\telop\\git_projects\\TestBuffers\\dep\\glfw\\src\\osmesa_context.c",
+  "output": "dep\\glfw\\src\\CMakeFiles\\glfw.dir\\osmesa_context.c.obj"
+},
+{
+  "directory": "C:/Users/telop/git_projects/TestBuffers/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -IC:/Users/telop/git_projects/TestBuffers/dep/imgui -IC:/Users/telop/git_projects/TestBuffers/dep/imgui/backends -IC:/Users/telop/git_projects/TestBuffers/dep/glfw/include -g -std=gnu++17 -o dep\\imgui\\CMakeFiles\\IMGUI.dir\\imgui_demo.cpp.obj -c C:\\Users\\telop\\git_projects\\TestBuffers\\dep\\imgui\\imgui_demo.cpp",
+  "file": "C:\\Users\\telop\\git_projects\\TestBuffers\\dep\\imgui\\imgui_demo.cpp",
+  "output": "dep\\imgui\\CMakeFiles\\IMGUI.dir\\imgui_demo.cpp.obj"
+},
+{
+  "directory": "C:/Users/telop/git_projects/TestBuffers/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -IC:/Users/telop/git_projects/TestBuffers/dep/imgui -IC:/Users/telop/git_projects/TestBuffers/dep/imgui/backends -IC:/Users/telop/git_projects/TestBuffers/dep/glfw/include -g -std=gnu++17 -o dep\\imgui\\CMakeFiles\\IMGUI.dir\\imgui_draw.cpp.obj -c C:\\Users\\telop\\git_projects\\TestBuffers\\dep\\imgui\\imgui_draw.cpp",
+  "file": "C:\\Users\\telop\\git_projects\\TestBuffers\\dep\\imgui\\imgui_draw.cpp",
+  "output": "dep\\imgui\\CMakeFiles\\IMGUI.dir\\imgui_draw.cpp.obj"
+},
+{
+  "directory": "C:/Users/telop/git_projects/TestBuffers/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -IC:/Users/telop/git_projects/TestBuffers/dep/imgui -IC:/Users/telop/git_projects/TestBuffers/dep/imgui/backends -IC:/Users/telop/git_projects/TestBuffers/dep/glfw/include -g -std=gnu++17 -o dep\\imgui\\CMakeFiles\\IMGUI.dir\\imgui_tables.cpp.obj -c C:\\Users\\telop\\git_projects\\TestBuffers\\dep\\imgui\\imgui_tables.cpp",
+  "file": "C:\\Users\\telop\\git_projects\\TestBuffers\\dep\\imgui\\imgui_tables.cpp",
+  "output": "dep\\imgui\\CMakeFiles\\IMGUI.dir\\imgui_tables.cpp.obj"
+},
+{
+  "directory": "C:/Users/telop/git_projects/TestBuffers/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -IC:/Users/telop/git_projects/TestBuffers/dep/imgui -IC:/Users/telop/git_projects/TestBuffers/dep/imgui/backends -IC:/Users/telop/git_projects/TestBuffers/dep/glfw/include -g -std=gnu++17 -o dep\\imgui\\CMakeFiles\\IMGUI.dir\\imgui_widgets.cpp.obj -c C:\\Users\\telop\\git_projects\\TestBuffers\\dep\\imgui\\imgui_widgets.cpp",
+  "file": "C:\\Users\\telop\\git_projects\\TestBuffers\\dep\\imgui\\imgui_widgets.cpp",
+  "output": "dep\\imgui\\CMakeFiles\\IMGUI.dir\\imgui_widgets.cpp.obj"
+},
+{
+  "directory": "C:/Users/telop/git_projects/TestBuffers/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -IC:/Users/telop/git_projects/TestBuffers/dep/imgui -IC:/Users/telop/git_projects/TestBuffers/dep/imgui/backends -IC:/Users/telop/git_projects/TestBuffers/dep/glfw/include -g -std=gnu++17 -o dep\\imgui\\CMakeFiles\\IMGUI.dir\\imgui.cpp.obj -c C:\\Users\\telop\\git_projects\\TestBuffers\\dep\\imgui\\imgui.cpp",
+  "file": "C:\\Users\\telop\\git_projects\\TestBuffers\\dep\\imgui\\imgui.cpp",
+  "output": "dep\\imgui\\CMakeFiles\\IMGUI.dir\\imgui.cpp.obj"
+},
+{
+  "directory": "C:/Users/telop/git_projects/TestBuffers/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -IC:/Users/telop/git_projects/TestBuffers/dep/imgui -IC:/Users/telop/git_projects/TestBuffers/dep/imgui/backends -IC:/Users/telop/git_projects/TestBuffers/dep/glfw/include -g -std=gnu++17 -o dep\\imgui\\CMakeFiles\\IMGUI.dir\\backends\\imgui_impl_opengl3.cpp.obj -c C:\\Users\\telop\\git_projects\\TestBuffers\\dep\\imgui\\backends\\imgui_impl_opengl3.cpp",
+  "file": "C:\\Users\\telop\\git_projects\\TestBuffers\\dep\\imgui\\backends\\imgui_impl_opengl3.cpp",
+  "output": "dep\\imgui\\CMakeFiles\\IMGUI.dir\\backends\\imgui_impl_opengl3.cpp.obj"
+},
+{
+  "directory": "C:/Users/telop/git_projects/TestBuffers/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -IC:/Users/telop/git_projects/TestBuffers/dep/imgui -IC:/Users/telop/git_projects/TestBuffers/dep/imgui/backends -IC:/Users/telop/git_projects/TestBuffers/dep/glfw/include -g -std=gnu++17 -o dep\\imgui\\CMakeFiles\\IMGUI.dir\\backends\\imgui_impl_glfw.cpp.obj -c C:\\Users\\telop\\git_projects\\TestBuffers\\dep\\imgui\\backends\\imgui_impl_glfw.cpp",
+  "file": "C:\\Users\\telop\\git_projects\\TestBuffers\\dep\\imgui\\backends\\imgui_impl_glfw.cpp",
+  "output": "dep\\imgui\\CMakeFiles\\IMGUI.dir\\backends\\imgui_impl_glfw.cpp.obj"
+},
+{
+  "directory": "C:/Users/telop/git_projects/TestBuffers/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -I/dep/glad/include -IC:/Users/telop/git_projects/TestBuffers/src/../dep/glad/include -IC:/Users/telop/git_projects/TestBuffers/dep/glfw/include -IC:/Users/telop/git_projects/TestBuffers/dep/glm/glm/.. -IC:/Users/telop/git_projects/TestBuffers/dep/imgui -IC:/Users/telop/git_projects/TestBuffers/dep/imgui/backends -g -std=gnu++17 -o src\\CMakeFiles\\TestBuffers.dir\\Camera.cpp.obj -c C:\\Users\\telop\\git_projects\\TestBuffers\\src\\Camera.cpp",
+  "file": "C:\\Users\\telop\\git_projects\\TestBuffers\\src\\Camera.cpp",
+  "output": "src\\CMakeFiles\\TestBuffers.dir\\Camera.cpp.obj"
+},
+{
+  "directory": "C:/Users/telop/git_projects/TestBuffers/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -I/dep/glad/include -IC:/Users/telop/git_projects/TestBuffers/src/../dep/glad/include -IC:/Users/telop/git_projects/TestBuffers/dep/glfw/include -IC:/Users/telop/git_projects/TestBuffers/dep/glm/glm/.. -IC:/Users/telop/git_projects/TestBuffers/dep/imgui -IC:/Users/telop/git_projects/TestBuffers/dep/imgui/backends -g -std=gnu++17 -o src\\CMakeFiles\\TestBuffers.dir\\Framebuffer.cpp.obj -c C:\\Users\\telop\\git_projects\\TestBuffers\\src\\Framebuffer.cpp",
+  "file": "C:\\Users\\telop\\git_projects\\TestBuffers\\src\\Framebuffer.cpp",
+  "output": "src\\CMakeFiles\\TestBuffers.dir\\Framebuffer.cpp.obj"
+},
+{
+  "directory": "C:/Users/telop/git_projects/TestBuffers/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -I/dep/glad/include -IC:/Users/telop/git_projects/TestBuffers/src/../dep/glad/include -IC:/Users/telop/git_projects/TestBuffers/dep/glfw/include -IC:/Users/telop/git_projects/TestBuffers/dep/glm/glm/.. -IC:/Users/telop/git_projects/TestBuffers/dep/imgui -IC:/Users/telop/git_projects/TestBuffers/dep/imgui/backends -g -std=gnu++17 -o src\\CMakeFiles\\TestBuffers.dir\\Shader.cpp.obj -c C:\\Users\\telop\\git_projects\\TestBuffers\\src\\Shader.cpp",
+  "file": "C:\\Users\\telop\\git_projects\\TestBuffers\\src\\Shader.cpp",
+  "output": "src\\CMakeFiles\\TestBuffers.dir\\Shader.cpp.obj"
+},
+{
+  "directory": "C:/Users/telop/git_projects/TestBuffers/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -I/dep/glad/include -IC:/Users/telop/git_projects/TestBuffers/src/../dep/glad/include -IC:/Users/telop/git_projects/TestBuffers/dep/glfw/include -IC:/Users/telop/git_projects/TestBuffers/dep/glm/glm/.. -IC:/Users/telop/git_projects/TestBuffers/dep/imgui -IC:/Users/telop/git_projects/TestBuffers/dep/imgui/backends -g -std=gnu++17 -o src\\CMakeFiles\\TestBuffers.dir\\main.cpp.obj -c C:\\Users\\telop\\git_projects\\TestBuffers\\src\\main.cpp",
+  "file": "C:\\Users\\telop\\git_projects\\TestBuffers\\src\\main.cpp",
+  "output": "src\\CMakeFiles\\TestBuffers.dir\\main.cpp.obj"
+},
+{
+  "directory": "C:/Users/telop/git_projects/TestBuffers/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\gcc.exe -I/dep/glad/include -IC:/Users/telop/git_projects/TestBuffers/src/../dep/glad/include -IC:/Users/telop/git_projects/TestBuffers/dep/glfw/include -IC:/Users/telop/git_projects/TestBuffers/dep/glm/glm/.. -IC:/Users/telop/git_projects/TestBuffers/dep/imgui -IC:/Users/telop/git_projects/TestBuffers/dep/imgui/backends -g -o src\\CMakeFiles\\TestBuffers.dir\\__\\dep\\glad\\src\\gl.c.obj -c C:\\Users\\telop\\git_projects\\TestBuffers\\dep\\glad\\src\\gl.c",
+  "file": "C:\\Users\\telop\\git_projects\\TestBuffers\\dep\\glad\\src\\gl.c",
+  "output": "src\\CMakeFiles\\TestBuffers.dir\\__\\dep\\glad\\src\\gl.c.obj"
+}
+]
