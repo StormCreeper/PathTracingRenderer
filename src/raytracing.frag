@@ -202,9 +202,9 @@ Sphere SceneS[] = Sphere[](
     createSphere(vec3(0, -6, 4), 0.8, vec3(1.0, 1.0, 1.0), vec3(1.0, 1.0, 1.0),
                  vec3(25, 25, 25), 0.2, 0.1, 0.9, 1.5),
     createSphere(vec3(0, -1, 0), 1, vec3(1.0, 1.0, 1.0), vec3(1.0, 1.0, 1.0),
-                 vec3(0), 0.1, 0.1, 0.9, 1.5),
+                 vec3(0), 0.0, 0.1, 0.9, 1.5),
     createSphere(vec3(2.5 * cos(timei + PI / 2), -1, 2.5 * sin(timei + PI / 2)),
-                 1, vec3(1.0, 0.2, 0.2), vec3(0.1, 1.0, 0.8), vec3(0), 0.0, 0.1,
+                 1, vec3(1.0, 0.2, 0.2), vec3(1.0, 0.1, 0.8), vec3(0), 0.0, 0.1,
                  0.9, 1.5),
     createSphere(vec3(2.5 * cos(timei + PI), -1.1, 2.5 * sin(timei + PI)), 1,
                  vec3(0.2, 0.2, 1.0), vec3(1.0, 1.0, 0.8), vec3(0), 0.7, 1.0,
@@ -410,8 +410,9 @@ vec2 Reprojection(vec3 WorldPos) {
 
 void main() {
 
-  vec2 ScreenSpace = (gl_FragCoord.xy +
-                      vec2(RandomFloat01(rngState), RandomFloat01(rngState))) /
+  vec2 uv = gl_FragCoord.xy / u_Resolution.xy;
+  vec2 ScreenSpace = (gl_FragCoord.xy + 0. * vec2(RandomFloat01(rngState),
+                                                  RandomFloat01(rngState))) /
                      u_Resolution.xy;
   ScreenSpace.y = 1 - ScreenSpace.y;
   vec4 Clip = vec4(ScreenSpace.xy * 2.0f - 1.0f, -1.0, 1.0);
@@ -442,13 +443,14 @@ void main() {
     // currentPos.y = 1- currentPos.y;
     vec2 reproUV = Reprojection(currentPos);
     if (reproUV.x > 0 && reproUV.y > 0 && reproUV.x < 1 && reproUV.y < 1) {
-      vec3 lastPos = currentPos; // texture(lastFramePositions, reproUV).xyz;
+      vec3 lastPos = texture(lastFramePositions, reproUV).xyz;
       if (length(lastPos - currentPos) < 0.1) {
-        vec4 lastColor =
-            texture(lastFrameColors, vec2(ScreenSpace.x, -ScreenSpace.y)).rgba;
+        vec4 lastColor = texture(lastFrameColors, reproUV).rgba;
         float blend = 1;
         if (lastColor.a != 0)
           blend = 1.0f / (1.0f + 1.0f / lastColor.a);
+        color.rgb = vec3(max(0., min(1., color.r)), max(0., min(1., color.g)),
+                         max(0., min(1., color.b)));
         color.rgb = mix(color.rgb, lastColor.rgb, 1 - blend);
         color.a = blend;
       } else {
