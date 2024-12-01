@@ -9,7 +9,12 @@ It features monte-carlo integration, rough reflection and refraction with the fr
 ``cmake ../``  
 ``cmake --build .``  
 ### Run
-``./src/TestBuffers.exe``  
+``./src/TestBuffers.exe``
+### Navigate
+- Arrow keys to move
+- Move the mouse to pan the view
+- Escape to toogle mouse lock and movement
+- R to reset the buffer
 
 ## Gallery 
 
