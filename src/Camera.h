@@ -16,6 +16,7 @@ private:
     float last_x;
     float last_y;
     bool first_mouse;
+    bool reset = false;
 public:
     glm::mat4x4 projection;
     int speed_mod;
@@ -33,4 +34,10 @@ public:
     glm::vec3 lastPosition;
     glm::vec3 velocity;
     glm::vec3 front;
+
+    bool doReset() {
+        bool tmp = reset;
+        reset = false;
+        return tmp;
+    }
 };

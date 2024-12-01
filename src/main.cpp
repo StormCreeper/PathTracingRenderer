@@ -202,7 +202,7 @@ int main() {
     Program raytracingProgram("../src/raytracing.frag", "../src/raytracing.vert");
     Program quadProgram("../src/quad.frag", "../src/quad.vert");
 
-    Camera camera(float(width) / float(height), glm::vec3(0, 0, 0));
+    Camera camera(float(width) / float(height), glm::vec3(0, -3, -5));
     camera_ptr = &camera;
 
     float vertices[] = { 1.0f, 1.0f, -1.0f, 1.0f,  -1.0f, -1.0f,
@@ -260,6 +260,7 @@ int main() {
         raytracingProgram.setUniform("u_Resolution", glm::vec2(width, height));
         raytracingProgram.setUniform(
             "spacePressed", glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS ? 1 : 0);
+        raytracingProgram.setUniform("doReset", camera.doReset() ? 1 : 0);
 
         Framebuffer* currentFbo = (frame % 2 == 0) ? &fb1 : &fb2;
         Framebuffer* lastFbo = (frame % 2 == 1) ? &fb1 : &fb2;

@@ -44,6 +44,9 @@ void Camera::updateInput(GLFWwindow* window, const float delta_time) {
     if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS) velocity += world_up * acc * speed;
 
     position += velocity * delta_time;
+    if (glm::length(velocity) > 0.01) {
+        reset = true;
+    }
     velocity.x = 0;
     velocity.y = 0;
     velocity.z = 0;
@@ -79,6 +82,8 @@ void Camera::mouseCallback(GLFWwindow* window, const float position_x, const flo
     up = glm::normalize(glm::cross(right, front));
 
     glfwSetCursorPos(window, 200, 200);
+
+    reset = true;
 
 }
 

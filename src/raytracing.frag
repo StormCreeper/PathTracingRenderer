@@ -25,6 +25,7 @@ uniform vec2 u_Resolution;
 uniform float u_Time;
 
 uniform int spacePressed;
+uniform int doReset;
 
 vec3 sunDir = normalize(vec3(0.4, -0.5, 0));
 vec3 sunColor = vec3(1, 0.8, 0.7) * 20;
@@ -367,10 +368,12 @@ vec2 Reprojection(vec3 WorldPos) {
     return ProjectedPosition.xy;
 }
 
+bool reproj = false;
+
 void main() {
 
     vec2 uv = gl_FragCoord.xy / u_Resolution.xy;
-    vec2 ScreenSpace = (gl_FragCoord.xy + 0. * vec2(RandomFloat01(rngState),
+    vec2 ScreenSpace = (gl_FragCoord.xy + (reproj ? 0.0 : 1.0) * vec2(RandomFloat01(rngState),
         RandomFloat01(rngState))) /
         u_Resolution.xy;
     ScreenSpace.y = 1 - ScreenSpace.y;
@@ -387,38 +390,43 @@ void main() {
     }
     color /= i;
 
-    /*vec4 lastColor = texture(lastFrameColors, gl_FragCoord.xy /
-    u_Resolution.xy).rgba;
+    // Clamp
+    color.xyz = vec3(max(0., min(1., color.r)), max(0., min(1., color.g)), max(0., min(1., color.b)));
 
-    float blend = max(0.001, (lastColor.a == 0.0f || (spacePressed == 1)) ? 1.0f
-    : 1.0f / (1.0f + 1.0f / lastColor.a)); color.rgb = mix(lastColor.rgb,
-    color.rgb, blend);
+    if (spacePressed == 0 && (doReset == 0 || reproj)) {
 
-    color.a = blend;
-        */
-    if (spacePressed == 0) {
-        vec3 currentPos = positions; // texture(lastFramePositions,
-        // ScreenSpace).xyz;
-// currentPos.y = 1- currentPos.y;
-        vec2 reproUV = Reprojection(currentPos);
-        if (reproUV.x > 0 && reproUV.y > 0 && reproUV.x < 1 && reproUV.y < 1) {
-            vec3 lastPos = texture(lastFramePositions, reproUV).xyz;
-            if (length(lastPos - currentPos) < 0.1) {
-                vec4 lastColor = texture(lastFrameColors, reproUV).rgba;
-                float blend = 1;
-                if (lastColor.a != 0)
-                    blend = 1.0f / (1.0f + 1.0f / lastColor.a);
-                color.rgb = vec3(max(0., min(1., color.r)), max(0., min(1., color.g)),
-                    max(0., min(1., color.b)));
-                color.rgb = mix(color.rgb, lastColor.rgb, 1 - blend);
-                color.a = blend;
+        if(reproj) {
+            vec3 currentPos = positions; // texture(lastFramePositions,
+            // ScreenSpace).xyz;
+            // currentPos.y = 1- currentPos.y;
+            vec2 reproUV = Reprojection(currentPos);
+            if (reproUV.x > 0 && reproUV.y > 0 && reproUV.x < 1 && reproUV.y < 1) {
+                vec3 lastPos = texture(lastFramePositions, reproUV).xyz;
+                if (length(lastPos - currentPos) < 0.1) {
+                    vec4 lastColor = texture(lastFrameColors, reproUV).rgba;
+                    float blend = 1;
+                    if (lastColor.a != 0)
+                        blend = 1.0f / (1.0f + 1.0f / lastColor.a);
+                    color.rgb = vec3(max(0., min(1., color.r)), max(0., min(1., color.g)),
+                        max(0., min(1., color.b)));
+                    color.rgb = mix(color.rgb, lastColor.rgb, 1 - blend);
+                    color.a = blend;
+                }
+                else {
+                    color.a = 0;
+                }
             }
             else {
                 color.a = 0;
             }
-        }
-        else {
-            color.a = 0;
+        } else {
+            vec4 lastColor = texture(lastFrameColors, gl_FragCoord.xy / u_Resolution.xy).rgba;
+
+            float blend = max(0.001, (lastColor.a == 0.0f || (spacePressed == 1)) ? 1.0f
+                : 1.0f / (1.0f + 1.0f / lastColor.a)); color.rgb = mix(lastColor.rgb,
+                color.rgb, blend);
+
+            color.a = blend;
         }
     }
 }
