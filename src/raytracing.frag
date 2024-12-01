@@ -1,6 +1,6 @@
 #version 430
 
-#define STEPS 5
+#define STEPS 10
 #define SAMPLES 256.0f
 
 #define EPSILON 1e-4
@@ -74,8 +74,7 @@ float ray_sphere_intersection(vec3 p, vec3 d, float r) {
     }
 }
 
-float ray_triangle_intersection(vec3 origin, vec3 direction, vec3 v0, vec3 v1,
-    vec3 v2) {
+float ray_triangle_intersection(vec3 origin, vec3 direction, vec3 v0, vec3 v1, vec3 v2) {
     vec3 edge1, edge2, h, s, q;
     float a, f, u, v;
     edge1 = v1 - v0;
@@ -118,17 +117,22 @@ float ray_plane_intersection(vec3 origin, vec3 direction, vec3 porigin,
     return -1;
 }
 
+struct Material {
+    vec3 albedo;
+    vec3 specular;
+    vec3 emissive;
+    float roughness;
+    float specularChance;
+    float refractionChance;
+    float ior;
+};
+
 struct hitObject {
     bool hit;
     float dist;
     vec3 normal;
     vec3 light;
-    float roughness;
-    vec3 albedo;
-    vec3 specular;
-    float specularChance;
-    float refractionChance;
-    float ior;
+    Material mat;
     bool fromInside;
     int type;
 };
@@ -136,59 +140,45 @@ struct hitObject {
 struct Sphere {
     vec3 center;
     float radius;
-    vec3 albedo;
-    vec3 specular;
-    vec3 emissive;
-    float roughness;
-    float specularChance;
-    float refractionChance;
-    float ior;
+    Material mat;
 };
 struct Triangle {
     vec3 v1;
     vec3 v2;
     vec3 v3;
     vec3 normal;
-    vec3 albedo;
-    vec3 specular;
-    vec3 emissive;
-    float roughness;
-    float specularChance;
-    float refractionChance;
-    float ior;
+    Material mat;
 };
 
-Sphere createSphere(vec3 center, float radius, vec3 albedo, vec3 specular,
-    vec3 emissive, float roughness, float specularChance,
-    float refractionChance, float ior) {
+Material createMat(vec3 albedo, vec3 specular, vec3 emissive, float roughness, float specularChance, float refractionChance, float ior) {
+    Material mat;
+
+    mat.albedo = albedo;
+    mat.specular = specular;
+    mat.emissive = emissive;
+    mat.roughness = roughness;
+    mat.specularChance = specularChance;
+    mat.refractionChance = refractionChance;
+    mat.ior = ior;
+
+    return mat;
+}
+
+Sphere createSphere(vec3 center, float radius, Material mat) {
     Sphere s;
     s.center = center;
     s.radius = radius;
-    s.albedo = albedo;
-    s.specular = specular;
-    s.emissive = emissive;
-    s.roughness = roughness;
-    s.specularChance = specularChance;
-    s.refractionChance = refractionChance;
-    s.ior = ior;
+    s.mat = mat;
     return s;
 }
 
-Triangle createTriangle(vec3 v1, vec3 v2, vec3 v3, vec3 albedo, vec3 specular,
-    vec3 emissive, float roughness, float specularChance,
-    float refractionChance, float ior) {
+Triangle createTriangle(vec3 v1, vec3 v2, vec3 v3, Material mat) {
     Triangle t;
     t.v1 = v1;
     t.v2 = v2;
     t.v3 = v3;
     t.normal = normalize(cross(v3 - v1, v2 - v1));
-    t.albedo = albedo;
-    t.specular = specular;
-    t.emissive = emissive;
-    t.roughness = roughness;
-    t.specularChance = specularChance;
-    t.refractionChance = refractionChance;
-    t.ior = 1 / ior;
+    t.mat = mat;
     return t;
 }
 
@@ -196,36 +186,20 @@ int numS = 7;
 
 float timei = 3.3;
 Sphere SceneS[] = Sphere[](
-    createSphere(vec3(4, -6, -2), 0.8, vec3(1.0, 1.0, 1.0), vec3(1.0, 1.0, 1.0),
-        vec3(25, 25, 25), 0.2, 0.1, 0.9, 1.5),
-    createSphere(vec3(-4, -6, -2), 0.8, vec3(1.0, 1.0, 1.0),
-        vec3(1.0, 1.0, 1.0), vec3(25, 25, 25), 0.2, 0.1, 0.9, 1.5),
-    createSphere(vec3(0, -6, 4), 0.8, vec3(1.0, 1.0, 1.0), vec3(1.0, 1.0, 1.0),
-        vec3(25, 25, 25), 0.2, 0.1, 0.9, 1.5),
-    createSphere(vec3(0, -1, 0), 1, vec3(1.0, 1.0, 1.0), vec3(1.0, 1.0, 1.0),
-        vec3(0), 0.0, 0.1, 0.9, 1.5),
-    createSphere(vec3(2.5 * cos(timei + PI / 2), -1, 2.5 * sin(timei + PI / 2)),
-        1, vec3(1.0, 0.2, 0.2), vec3(1.0, 0.1, 0.8), vec3(0), 0.0, 0.1,
-        0.9, 1.5),
-    createSphere(vec3(2.5 * cos(timei + PI), -1.1, 2.5 * sin(timei + PI)), 1,
-        vec3(0.2, 0.2, 1.0), vec3(1.0, 1.0, 0.8), vec3(0), 0.7, 1.0,
-        0.0, 1.5),
-    createSphere(vec3(2.5 * cos(timei + PI * 3 / 2), -1.2,
-        2.5 * sin(timei + PI * 3 / 2)),
-        1, vec3(0.2, 1.0, 0.2), vec3(1.0, 1.0, 1.0), vec3(0), 0.0, 0.5,
-        0.0, 1.5),
-    createSphere(vec3(5 * cos(-timei), -6, 3 * sin(-timei)), 1,
-        vec3(1.0, 0.1, 1.0), vec3(1.0, 1.0, 1.0), vec3(8), 0.0, 0.5,
-        0.0, 1.5),
-    createSphere(vec3(5 * cos(-timei + PI / 2), -6, 3 * sin(-timei + PI / 2)),
-        1, vec3(1.0, 1.0, 1.0), vec3(1.0, 1.0, 0.8), vec3(4), 0.0, 0.1,
-        0.9, 1.5),
-    createSphere(vec3(5 * cos(-timei + PI), -6, 3 * sin(-timei + PI)), 1,
-        vec3(1.0, 1.0, 1.0), vec3(1.0, 1.0, 0.8), vec3(4), 0.0, 0.1,
-        0.9, 1.5),
-    createSphere(
-        vec3(5 * cos(-timei + PI * 3 / 2), -6, 3 * sin(-timei + PI * 3 / 2)), 1,
-        vec3(1.0, 1.0, 1.0), vec3(1.0, 1.0, 0.8), vec3(4), 0.0, 0.1, 0.9, 1.5));
+    createSphere(vec3(4, -6, -2), 0.8, 
+        createMat(vec3(0), vec3(0), vec3(25), 0, 0, 0, 0)),
+    createSphere(vec3(-4, -6, -2), 0.8,
+        createMat(vec3(0), vec3(0), vec3(25), 0, 0, 0, 0)),
+    createSphere(vec3(0, -6, 4), 0.8,
+        createMat(vec3(0), vec3(0), vec3(25), 0, 0, 0, 0)),
+    createSphere(vec3(0, -1, 0), 1,
+        createMat(vec3(1.0, 1.0, 1.0), vec3(1.0, 1.0, 1.0), vec3(0), 0.0, 0.1, 0.9, 1.5)),
+    createSphere(vec3(0, -1, 2.5), 1,
+        createMat(vec3(1.0, 0.2, 0.2), vec3(1.0, 0.1, 0.8), vec3(0), 0.0, 0.1, 0.9, 1.5)),
+    createSphere(vec3(-2.5, -1.1, 0), 1,
+        createMat(vec3(0.2, 0.2, 1.0), vec3(1.0, 1.0, 0.8), vec3(0), 0.7, 1.0, 0.0, 1.5)),
+    createSphere(vec3(0, -1.2, -2.5), 1,
+        createMat(vec3(0.2, 1.0, 0.2), vec3(1.0, 1.0, 1.0), vec3(0), 0.0, 0.5, 0.0, 1.5)));
 
 uniform int numT = 0;
 
@@ -240,11 +214,7 @@ hitObject sendRay(vec3 origin, vec3 direction) {
     obj.hit = false;
     obj.dist = 1e20;
     obj.normal = vec3(0, 0, 0);
-    obj.albedo = vec3(0, 0, 0);
-    obj.specular = vec3(0, 0, 0);
-    obj.light = vec3(0, 0, 0);
-    obj.roughness = 0;
-    obj.ior = 1;
+    obj.mat = createMat(vec3(0), vec3(0), vec3(0), 0, 0, 0, 0);
     obj.fromInside = false;
     obj.type = 0;
 
@@ -254,12 +224,7 @@ hitObject sendRay(vec3 origin, vec3 direction) {
         obj.hit = true;
         obj.dist = d1;
         obj.normal = vec3(0, -1, 0);
-        obj.roughness = 0.1;
-        obj.albedo = vec3(1.0, 1.0, 1.0);
-        obj.specular = vec3(1, 1.0, 1.0);
-        obj.specularChance = 0.0;
-        obj.refractionChance = 0.0;
-        obj.ior = 1;
+        obj.mat = createMat(vec3(1.0, 1.0, 1.0), vec3(1.0, 1.0, 1.0), vec3(0), 0.1, 0.0, 0.0, 1.0);
     }
     for (int i = 0; i < numS; i++) {
         Sphere s = SceneS[i];
@@ -273,13 +238,7 @@ hitObject sendRay(vec3 origin, vec3 direction) {
                 obj.fromInside = true;
                 obj.normal = -nnorm;
             }
-            obj.roughness = s.roughness;
-            obj.specular = s.specular;
-            obj.albedo = s.albedo;
-            obj.light = s.emissive;
-            obj.specularChance = s.specularChance;
-            obj.refractionChance = s.refractionChance;
-            obj.ior = s.ior;
+            obj.mat = s.mat;
         }
     }
     for (int i = 0; i < numT; i++) {
@@ -293,13 +252,7 @@ hitObject sendRay(vec3 origin, vec3 direction) {
             if (dot(nnorm, direction) > 0) {
                 obj.normal = -nnorm;
             }
-            obj.roughness = t.roughness;
-            obj.specular = t.specular;
-            obj.albedo = t.albedo;
-            obj.light = t.emissive;
-            obj.specularChance = t.specularChance;
-            obj.refractionChance = t.refractionChance;
-            obj.ior = t.ior;
+            obj.mat = t.mat;
         }
     }
 
@@ -334,8 +287,8 @@ vec3 traceRay(vec3 origin, vec3 direction) {
         positions.xyz = origin + direction * hit.dist;
     for (int i = 0; i < STEPS; i++) {
         if (hit.hit) {
-            if (length(hit.light) != 0) {
-                return hit.light * energy;
+            if (length(hit.mat.emissive) != 0) {
+                return hit.mat.emissive * energy;
             }
             else {
                 origin += direction * hit.dist;
@@ -343,17 +296,17 @@ vec3 traceRay(vec3 origin, vec3 direction) {
                 origin += norm * EPSILON;
                 vec3 diffuse = normalize(norm + RandomUnitVector(rngState));
 
-                float specularChance = hit.specularChance;
-                float refractionChance = hit.refractionChance;
+                float specularChance = hit.mat.specularChance;
+                float refractionChance = hit.mat.refractionChance;
 
                 // float rayProbability = 1.0f;
                 if (specularChance > 0.0f) {
                     specularChance = FresnelReflectAmount(
-                        hit.fromInside ? hit.ior : 1.0, !hit.fromInside ? hit.ior : 1.0,
-                        direction, norm, hit.specularChance, 1.0f);
+                        hit.fromInside ? hit.mat.ior : 1.0, !hit.fromInside ? hit.mat.ior : 1.0,
+                        direction, norm, hit.mat.specularChance, 1.0f);
 
                     float chanceMultiplier =
-                        (1.0f - specularChance) / (1.0f - hit.specularChance);
+                        (1.0f - specularChance) / (1.0f - hit.mat.specularChance);
                     refractionChance *= chanceMultiplier;
                 }
 
@@ -371,21 +324,21 @@ vec3 traceRay(vec3 origin, vec3 direction) {
                 if (doSpecular > 0) {
                     vec3 specular = reflect(direction, norm);
                     direction =
-                        normalize(mix(specular, diffuse, hit.roughness * hit.roughness));
-                    energy *= hit.specular;
+                        normalize(mix(specular, diffuse, hit.mat.roughness * hit.mat.roughness));
+                    energy *= hit.mat.specular;
                 }
                 else if (doRefraction > 0) {
                     vec3 n = hit.normal;
                     origin -= norm * 2 * EPSILON;
 
-                    vec3 refracted = refract(direction, n, 1 / hit.ior);
+                    vec3 refracted = refract(direction, n, 1 / hit.mat.ior);
                     direction =
-                        normalize(mix(refracted, diffuse, hit.roughness * hit.roughness));
-                    energy *= hit.specular;
+                        normalize(mix(refracted, diffuse, hit.mat.roughness * hit.mat.roughness));
+                    energy *= hit.mat.specular;
                 }
                 else {
                     direction = diffuse;
-                    energy *= hit.albedo;
+                    energy *= hit.mat.albedo;
                 }
             }
         }
